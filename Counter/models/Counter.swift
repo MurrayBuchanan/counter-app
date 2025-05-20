@@ -10,11 +10,13 @@ final class CounterCollection {
     var order: Int = 0
     var isExpanded: Bool = true
     var iconName: String? = nil
+    var uuid: UUID = UUID()
     
-    init(name: String, order: Int = 0, iconName: String? = nil) {
+    init(name: String, order: Int = 0, iconName: String? = nil, uuid: UUID = UUID()) {
         self.name = name
         self.order = order
         self.iconName = iconName
+        self.uuid = uuid
     }
 }
 
@@ -39,7 +41,7 @@ final class Counter {
     // Theme selection
     var themeName: String
     
-    weak var collection: CounterCollection?
+    var collection: CounterCollection?
     
     init(
         name: String,

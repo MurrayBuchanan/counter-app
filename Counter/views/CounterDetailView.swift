@@ -22,7 +22,7 @@ struct CounterDetailView: View {
     var body: some View {
         ZStack {
             theme.gradient
-                .opacity(counter.goalValue == nil || counter.value >= counter.goalValue! ? 0.3 : 0.15)
+                .opacity(counter.goalValue == nil || counter.value >= counter.goalValue! ? 1 : 0.7)
                 .ignoresSafeArea()
                 .animation(.spring(response: 0.3, dampingFraction: 0.7), value: counter.value)
             
@@ -33,13 +33,15 @@ struct CounterDetailView: View {
                 HStack(alignment: .firstTextBaseline, spacing: 8) {
                     Text("\(counter.value)")
                         .font(.system(size: 72, weight: .bold, design: .rounded))
-                        .foregroundStyle(.primary)
+                        .foregroundStyle(.white)
                         .contentTransition(.numericText())
                         .animation(.spring(response: 0.3, dampingFraction: 0.7), value: counter.value)
                     if let goal = counter.goalValue {
                         Text("/ \(goal)")
                             .font(.system(size: 32, weight: .bold, design: .rounded))
                             .foregroundStyle(.primary.opacity(0.7))
+                            .foregroundColor(.white)
+                            .shadow(color: Color.white.opacity(0.4), radius: 4, x: 0, y: 0)
                     }
                 }
                 
@@ -55,12 +57,19 @@ struct CounterDetailView: View {
         .navigationTitle(counter.name)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            Button {
-                showingEditSheet = true
-            } label: {
-                Label("Edit", systemImage: "pencil")
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    showingEditSheet = true
+                } label: {
+                    Label("Edit", systemImage: "slider.horizontal.below.square.filled.and.square")
+                        .foregroundColor(.white)
+                }
             }
         }
+        .navigationBarHidden(false)
+        .statusBar(hidden: true)
+        .toolbarColorScheme(.dark, for: .navigationBar)
+        .toolbarBackground(.clear, for: .navigationBar)
         .sheet(isPresented: $showingEditSheet) {
             NavigationStack {
                 EditCounterView(counter: counter)
@@ -72,11 +81,11 @@ struct CounterDetailView: View {
         Button(action: action) {
             Text(label)
                 .font(.system(size: 32, weight: .medium, design: .rounded))
-                .foregroundStyle(.primary.opacity(0.7))
+                .foregroundStyle(.white.opacity(0.7))
                 .frame(width: 64, height: 64)
                 .background(
                     Circle()
-                        .fill(.regularMaterial.opacity(0.3))
+                        .fill(.ultraThinMaterial.opacity(0.3))
                 )
         }
     }
